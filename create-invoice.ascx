@@ -68,7 +68,7 @@ Public Function CreateInvoice(appraisalId As Integer, fileLoc As Integer)
 				sepString=","
 			NEXT	
 							
-			DIm reader  as PdfReader = new PdfReader(Server.MapPath(pathStarter & "temp/invoices/Invoice-VP.pdf"))
+            Dim reader As PdfReader = New PdfReader(Server.MapPath(pathStarter & "temp/invoices/Invoice-VP3.pdf"))
 			dIM size  as Rectangle= reader.GetPageSizeWithRotation(1)
 			DIm doc AS Document = new Document(size)
 			Dim  writer  As PdfWriter =  PdfWriter.getInstance(doc, new FileStream(Server.MapPath(pathStarter & "temp/invoices/" & dbSet.Tables("Appraisal").Rows(0).Item("OrderNumber") & ".pdf"), FileMode.Create, FileAccess.Write))
@@ -85,7 +85,7 @@ Public Function CreateInvoice(appraisalId As Integer, fileLoc As Integer)
 			addToPDF("Valuation Partners",bf,cb,121,972,9)			
 			addToPDF("12808 West Airport Blvd., Suite 330",bf,cb,121,962,9)			
 			addToPDF("Sugar Land, TX 77478",bf,cb,121,952,9)
-'			addToPDF("419.255.9171",bf,cb,121,942,9)			
+            addToPDF("281.313.1571", bf, cb, 121, 942, 9)
 			addToPDF("Federal Tax#: 26-1272692",bf,cb,121,932,9)
 			
 			addToPDF(dbSet.Tables("Appraisal").Rows(0).Item("ClientIDCode"),bf,cb,63,867,9)	
@@ -106,7 +106,9 @@ Public Function CreateInvoice(appraisalId As Integer, fileLoc As Integer)
 			addToPDF(dbSet.Tables("Appraisal").Rows(0).Item("ClientCity") & ", " & dbSet.Tables("Appraisal").Rows(0).Item("ClientState") & " " & dbSet.Tables("Appraisal").Rows(0).Item("ClientZipCode"),bf,cb,63,yCoord,9)
 			yCoord=yCoord-10	
 			
-			yCoord=215
+            yCoord = 215
+            addToPDF(dbSet.Tables("Appraisal").Rows(0).Item("ClientIDCode"), bf, cb, 63, yCoord, 9)
+            yCoord = yCoord - 9
 			IF NOT TRIM(dbSet.Tables("Appraisal").Rows(0).Item("OrderedByName"))="" THEN	
 				addToPDF(dbSet.Tables("Appraisal").Rows(0).Item("OrderedByName"),bf,cb,63,yCoord,9)	
 				yCoord=yCoord-9				
@@ -128,18 +130,19 @@ Public Function CreateInvoice(appraisalId As Integer, fileLoc As Integer)
 			addToPDF("Sugar Land, TX 77478",bf,cb,74,49,9)	
 			
 			
-			addToPDF(dbSet.Tables("Appraisal").Rows(0).Item("OrderNumber"),bf,cb,395,79,9)	
-			addToPDF(DateTime.Now.toString("MM/dd/yyyy"),bf,cb,408,68,9)	
-			addToPDF(dbSet.Tables("Appraisal").Rows(0).Item("OrderNumber"),bf,cb,403,57,9)	
-			addToPDF(dbSet.Tables("Appraisal").Rows(0).Item("ClientCaseNumber"),bf,cb,389,46,9)		
+            addToPDF(dbSet.Tables("Appraisal").Rows(0).Item("OrderNumber"), bf, cb, 395, 65, 9)
+            addToPDF(DateTime.Now.ToString("MM/dd/yyyy"), bf, cb, 408, 54, 9)
+            addToPDF(dbSet.Tables("Appraisal").Rows(0).Item("OrderNumber"), bf, cb, 403, 42, 9)
+            'addToPDF(dbSet.Tables("Appraisal").Rows(0).Item("ClientCaseNumber"),bf,cb,389,46,9)		
 			
 			addToPDF(dbSet.Tables("Appraisal").Rows(0).Item("OrderNumber"),bf,cb,420,736,9)	
 			addToPDF(DateTime.Now.toString("MM/dd/yyyy"),bf,cb,433,725,9)	
-			addToPDF(DateTime.Parse(dbSet.Tables("Appraisal").Rows(0).Item("DateOrdered")).toString("MM/dd/yyyy"),bf,cb,428.5,713,9)	
-			addToPDF(dbSet.Tables("Appraisal").Rows(0).Item("OrderNumber"),bf,cb,430,701.5,9)
-			addToPDF(dbSet.Tables("Appraisal").Rows(0).Item("ClientCaseNumber"),bf,cb,414,691.5,9)
-			addToPDF(dbSet.Tables("Appraisal").Rows(0).Item("ClientFileNumber"),bf,cb,431,679.5,9)
-			addToPDF(dbSet.Tables("Appraisal").Rows(0).Item("ClientPONumber"),bf,cb,408,667,9)
+            addToPDF(DateTime.Parse(dbSet.Tables("Appraisal").Rows(0).Item("DateOrdered")).ToString("MM/dd/yyyy"), bf, cb, 428.5, 713, 9)
+            addToPDF(DateTime.Now.AddDays(30).ToString("MM/dd/yyyy"), bf, cb, 457, 703, 9)
+            addToPDF(dbSet.Tables("Appraisal").Rows(0).Item("OrderNumber"), bf, cb, 430, 691, 9)
+            addToPDF(dbSet.Tables("Appraisal").Rows(0).Item("ClientCaseNumber"), bf, cb, 414, 679.5, 9)
+            addToPDF(dbSet.Tables("Appraisal").Rows(0).Item("ClientFileNumber"), bf, cb, 431, 668, 9)
+            addToPDF(dbSet.Tables("Appraisal").Rows(0).Item("ClientPONumber"), bf, cb, 408, 657, 9)
 
 			addToPDF(FormatNumber(dbSet.Tables("Appraisal").Rows(0).Item("Fee"),2,-2,-2,-2),bf,cb,503,495,9)
 			
@@ -149,6 +152,8 @@ Public Function CreateInvoice(appraisalId As Integer, fileLoc As Integer)
 			
 			addToPDF(dbSet.Tables("Appraisal").Rows(0).Item("PropertyCity")  & ", "  & dbSet.Tables("Appraisal").Rows(0).Item("PropertyState") & " " & dbSet.Tables("Appraisal").Rows(0).Item("PropertyZipCode"),bf,cb,136,563,9)																																					
 				
+            addToPDF("Net 30", bf, cb, 96, 351, 9)
+            
 'Response.Write("123")	
 
 			
